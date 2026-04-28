@@ -1,0 +1,114 @@
+What Are Dictionaries, and How Do They Work?
+
+pizza = {
+    'name': 'Margherita Pizza',
+    'price': 8.9,
+    'calories_per_slice': 250,
+    'toppings': ['mozzarella', 'basil']
+}
+
+OR
+
+pizza = dict([('name', 'Margherita Pizza'), ('price', 8.9), ('calories_per_slice', 250), ('toppings', ['mozzarella', 'basil'])])
+
+
+dictionary[key]
+pizza['name']
+pizza['name'] = 'Margherita'
+
+
+dictionary.get(key, default)
+pizza.get('toppings', []) # ['mozzarella', 'basil']
+
+pizza.keys()
+# dict_keys(['name', 'price', 'calories_per_slice'])
+
+pizza.values()
+# dict_values(['Margherita Pizza', 8.9, 250])
+
+pizza.pop('price', 10)
+pizza.pop('total_price') # KeyError
+
+pizza.popitem() -- python 3.7
+
+pizza.update({ 'price': 15, 'total_time': 25 })
+
+======================================================================
+======================================================================
+What Are Some Common Techniques to Loop Over a Dictionary?
+
+for price in products.values():
+    print(price)
+
+for product in products.keys():
+    print(product)
+
+# Or
+
+for product in products:
+    print(product)
+
+for product in products.items():
+
+for product, price in products.items():
+    print(product, price)
+
+
+for product in enumerate(products):
+    print(product)
+
+for index, product in enumerate(products):
+    print(index, product)
+
+
+print(find_invalid_records(**medical_records[0]))
+def find_invalid_records(
+    patient_id, age, gender, diagnosis, medications, last_visit_id
+):
+=================================================================
+
+What Are Sets, and How Do They Work?
+
+Sets are one of Python's built-in data structures. One of the core characteristics of sets is that they don't store duplicate values. If you try to add a duplicate value to a set, only one of them will be stored.
+
+Sets are mutable and unordered, which means that their elements are not stored in any specific order, so you cannot use indices or keys to access them. They can only contain values of immutable data types like numbers, strings, and tuples. And they support mathematical set operations, including union, intersection, difference, and symmetric difference.
+
+
+my_set = {1, 2, 3, 4, 5} 
+
+empty set
+my_set = set() xxxxxx not my_set = {} this is a dictionary
+
+my_set.add(6)
+
+my_set.remove(4) // raise KeyError if not found
+my_set.discard(4)
+my_set.clear()
+
+my_set = {1, 2, 3, 4, 5}
+your_set = {2, 3, 4, 6}
+print(your_set.issubset(my_set)) # False
+print(my_set.issuperset(your_set)) # False
+
+print(my_set.isdisjoint(your_set)) # False // when no common item
+
+Union
+my_set | your_set # {1, 2, 3, 4, 5, 6}
+
+intersection
+my_set & your_set # {2, 3, 4}
+
+returns a new set with the elements of the first set that are not in the other sets.
+my_set - your_set # {1, 5}
+
+Symmetric difference
+returns a new set with the elements that are either in the first or the second set, but not both
+my_set ^ your_set # {1, 5, 6}
+
+
+my_set -= your_set
+After this, my_set will be updated to {1, 5}:
+
+
+print(5 in my_set)
+The result will be a boolean value True or False:

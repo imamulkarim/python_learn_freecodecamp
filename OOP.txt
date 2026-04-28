@@ -1,0 +1,412 @@
+What is Object-Oriented Programming, and How Does Encapsulation Work?
+---------------------------------------------------------------------
+
+encapsulation, inheritance, polymorphism, and abstraction.
+
+Encapsulation is the bundling of the attributes and methods of an object into a single unit, the class.
+
+class Wallet:
+   def __init__(self, balance):
+       self._balance = balance # For internal use by convention. Still accessible from outside
+
+   def deposit(self, amount):
+       if amount > 0:
+           self._balance += amount # Add to the balance safely
+
+   def withdraw(self, amount):
+       if 0 < amount <= self._balance:
+           self._balance -= amount # Remove from the balance safely
+
+By convention, prefixing attribute and methods with a single underscore means they are meant for internal use. 
+No one should directly access them from outside the class since it defies the principles of encapsulation, which can lead to bugs.
+wal = Wallet(100)
+print(wal._balance)  # Accessing the balance directly (not recommended)
+
+
+double underscore effectively prevents them to be accessed from the outside of their class, making those attributes and methods private.
+
+class Wallet:
+   def __init__(self):
+       self.__balance = 0
+
+   def __validate(self, amount): # private method
+       if amount < 0:
+           raise ValueError('Amount must be positive')
+
+   def deposit(self, amount):
+       self.__validate(amount)
+       self.__balance += amount
+
+   def withdraw(self, amount):
+       self.__validate(amount)
+       if amount > self.__balance:
+           raise ValueError('Insufficient funds')
+       self.__balance -= amount
+
+   def get_balance(self):
+       return self.__balance
+
+acct_one = Wallet()
+acct_one.deposit(3)
+print(acct_one.get_balance()) # 3
+
+acct_one.deposit(50)
+print(acct_one.get_balance()) # 53
+
+acct_one.deposit(-4)  # ValueError: Amount must be positive
+acct_one.withdraw(-8) # ValueError: Amount must be positive
+acct_one.withdraw(58) # ValueError: Insufficient funds
+
+
+-----------------------------
+What are Getters and Setters
+-----------------------------
+-----------------------------
+
+class Circle:
+    def __init__(self, radius):
+        self._radius = radius
+
+    # Getter
+    @property
+    def radius(self): # A getter to get the radius
+        return self._radius
+
+    # Setter
+    @radius.setter
+    def radius(self, value):  # A setter to set the radius
+        if value <= 0:
+            raise ValueError('Radius must be positive')
+        self._radius = value
+
+    # Deleter
+    @radius.deleter
+    def radius(self):
+        print("Deleting radius...")
+        del self._radius
+  
+    @property
+    def area(self):  # A getter to calculate area
+        return 3.14 * (self._radius ** 2)
+
+my_circle = Circle(3)
+
+print(my_circle.radius) # 3
+print(my_circle.area) # 28.26
+
+Note that inside the setter, you cannot use same name of the property when assigning a new value. 
+That's because self.radius = value will call the setter within the setter method itself, leading to infinite recursion and a RecursionError. 
+So you must always use the underscore-prefixed form self._radius = value.
+
+# Create circle object with a radius
+my_circle = Circle(33)
+print("Initial radius:", my_circle.radius)  # 33
+
+# Delete the radius
+# This calls the deleter
+del my_circle.radius # Deleting radius...
+print("Radius deleted!") # Radius deleted!
+
+# Try to access radius after deletion
+try:
+    print(my_circle.radius)
+except AttributeError as e:
+    print("Error:", e) # Error: 'Circle' object has no attribute '_radius'
+
+===========================================================
+Understanding-inheritance-and-polymorphism
+============================================================
+
+What Is Inheritance and How Does It Promote Code Reuse?
+-------------------------------------------------------
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def sound(self):
+        return f'{self.name} makes a sound'
+
+class Dog(Animal):
+    bark = 'woof! woof!! woof!!!'
+
+jack = Dog('Jack')
+print(jack.sound())  # Jack makes a sound
+print(jack.bark)  # woof! woof!! woof!!!
+
+Let's override the sound() method from the parent Animal class in the child Dog class so we can have sound() use the bark class variable:
+
+class Dog(Animal):
+    bark = 'woof! woof!! woof!!!'
+
+    # Override sound() to use bark class variable
+    def sound(self):
+        return f'{self.name} barks {self.bark}'
+
+    OR
+    # Call Animal.sound(), then append bark
+    def sound(self):
+        base = super().sound()
+        return f'{base}, then {self.name} barks {self.bark}'
+
+
+jack = Dog('Jack')
+print(jack.sound())  # Jack barks woof! woof!! woof!!!
+
+
+*******************************
+A simple way to demonstrate multiple inheritance is with a frog, which can both walk on land and swim in water:
+
+
+class Walker:
+    def walk(self):
+        return 'I can walk on land'
+
+class Swimmer:
+    def swim(self):
+        return 'I can swim in water'
+
+# Amphibian inherits from both Walker and Swimmer
+class Amphibian(Walker, Swimmer):
+    def __init__(self, name):
+        self.name = name
+
+    def introduce(self):
+        return f"I'm {self.name} the frog. {self.walk()} and {self.swim()}."
+
+frog = Amphibian('Freddy')
+print(frog.introduce())
+# Output: I'm Freddy the frog. I can walk on land and I can swim in water.
+
+
+What Is Polymorphism and How Does It Promote Code Reuse?
+--------------------------------------------------------
+
+class Twitter:
+   def __init__(self, content):
+       self.content = content
+
+   def post(self):
+       return f"🐦 Tweet: '{self.content}' (280 chars max)"
+
+class Instagram:
+   def __init__(self, content):
+       self.content = content
+
+   def post(self):
+       return f"📸 Instagram Post: '{self.content}' + ✨ filters"
+
+class LinkedIn:
+   def __init__(self, content):
+       self.content = content
+
+   def post(self):
+       return f"💼 LinkedIn Article: '{self.content}' (Professional Mode)"
+
+def start(social_media):
+   print(social_media.post())  # Calls .post() on any object
+
+# Instances
+tweet = Twitter('Just learned Python polymorphism!')
+photo = Instagram('Sunset vibes 🌅')
+article = LinkedIn('Why OOP matters in 2024')
+
+# The polymorphic calls - same function, different outputs
+start(tweet) # 🐦 Tweet: 'Just learned Python polymorphism!' (280 chars max)
+start(photo) # 📸 Instagram Post: 'Sunset vibes 🌅' + ✨ filters
+start(article) # 💼 LinkedIn Article: 'Why OOP matters in 2024' (Professional Mode)
+
+When you pass in a Cat, Bird, or Monkey, it calls the speak() method of the object and prints the result. 
+Because each class defines speak() differently, you get different outputs from the same function. 
+That's polymorphism in action.
+
+
+****  inheritance-based polymorphism.*********
+
+class Animal:
+   def speak(self):
+       return 'Some generic sound'
+
+class Cat(Animal):
+   def speak(self):
+       return 'A cat meow'
+
+class Dog(Animal):
+   def speak(self):
+       return 'A dog barks woof woof'
+
+class Monkey(Animal):
+   def speak(self):
+       return 'A monkey ooh ooh aah aah ooh ooh aah aah'
+  
+print(Cat().speak()) # A cat meow
+print(Dog().speak()) # A dog barks woof woof
+print(Monkey().speak()) # A monkey ooh ooh aah aah ooh ooh aah aah
+print(Animal().speak()) # Some generic sound
+
+
+What is Name Mangling and How Does it Work?
+---------------------------------------------
+
+
+Prefixing an attribute with a double underscore triggers Python's name mangling process, 
+in which Python internally renames the attribute by adding an underscore and the class name as a prefix, 
+turning __attribute into _ClassName__attribute.
+
+To see this in action, you create an instance of the class and use the __dict__ special attribute of that instance, 
+which is a dictionary containing the object's attributes:
+
+class Example:
+    def __init__(self, internal, private):
+        self._internal = internal
+        self.__private = private
+
+example1 = Example(
+    'I can be accessed from outside the class, but should not',
+    'I cannot be accessed directly from outside the class'
+)
+
+print(example1.__dict__)
+
+
+So, why does Python do name mangling?
+
+The main purpose of name mangling is to prevent accidental attribute and method overriding when you use inheritance. 
+Here's an example that makes that clear:
+
+class Parent:
+    def __init__(self):
+        self.__data = 'Parent data'
+
+class Child(Parent):
+    def __init__(self):
+        super().__init__()
+        self.__data = 'Child data'
+
+c = Child()
+print(c.__dict__) # {'_Parent__data': 'Parent data', '_Child__data': 'Child data'}
+You can see that both the Parent class and the Child that inherits from it have their separate _class__data attributes. 
+This is made possible with name mangling. Otherwise, the Child would have overwritten the Parent data by accident.
+
+Here's what would have happened without allowing Python to do the name mangling, that is if you don't prefix the attributes in both classes with double underscore:
+
+Example Code
+class Parent:
+   def __init__(self):
+       self.data = 'Parent data' # or self._data
+
+class Child(Parent):
+   def __init__(self):
+       super().__init__()
+       self.data = 'Child data' # or self._data
+
+c = Child()
+print(c.__dict__)  # {'data': 'Child data'}
+
+
+===========================================================================
+What Is Abstraction and How Does It Help Keep Complex Systems Organized?
+===========================================================================
+
+As for how Python implements abstraction, it does so through the abc module.
+
+This module provides the ABC class (standing for “abstract base class”) and the @abstractmethod decorator.
+
+ABC is the class that is meant to be inherited from, but you cannot create direct objects from it. 
+It is what defines a common interface of methods and properties that its subclasses must implement.
+
+@abstractmethod decorator. 
+
+
+from abc import ABC, abstractmethod
+
+# Define an abstract base class
+class AbstractClass(ABC):
+    @abstractmethod
+    def abstract_method(self):
+        pass
+
+# Concrete subclass that implements the abstract method
+class ConcreteClassOne(AbstractClass):
+    def abstract_method(self):
+        print('Implementation in ConcreteClassOne')
+
+# Another concrete subclass
+class ConcreteClassTwo(AbstractClass):
+    def abstract_method(self):
+        print('Implementation in ConcreteClassTwo')
+
+---------------------------------------------------------------------------
+from abc import ABC, abstractmethod
+
+class Animal(ABC): # Inherits from abstract base class
+   @abstractmethod # Abstract method decorator
+   def make_sound(self):  # The method subclasses must override
+       pass
+
+# Concrete class that will override the abstract method
+class Dog(Animal):
+   def make_sound(self):
+       print('Woof!')
+
+# Another concrete class that will override the abstract method
+class Cat(Animal):
+   def make_sound(self):
+       print('Meow!')
+
+# Another concrete class that will override the abstract method
+class Monkey(Animal):
+   def make_sound(self):
+       print('Ooh ooh aah aah!')
+
+# Create instances of each concrete class
+animals = [Dog(), Cat(), Monkey()]
+
+# Loop through the instances to call the make_sound method
+for animal in animals:
+   animal.make_sound()
+
+# Output:
+# Woof!
+# Meow!
+# Ooh ooh aah aah!
+
+--------------------------------------
+Instance attribute
+
+
+from abc import ABC, abstractmethod
+
+# The blueprint for any toy that can speak
+class TalkingToy(ABC):
+   def __init__(self, name):
+       self.name = name
+   @abstractmethod
+   def speak(self):
+       pass
+
+class RobotToy(TalkingToy):
+   def speak(self):
+       print(f'{self.name} says beep boop! I am a robot!')
+
+class TeddyBearToy(TalkingToy):
+   def speak(self):
+       print(f"{self.name} says hug me! I'm cuddly!")
+
+class DinosaurToy(TalkingToy):
+   def speak(self):
+       print(f'{self.name} says ROOOOAR!')
+
+# Create toys
+rusty = RobotToy('Rusty')
+fluffy = TeddyBearToy('Fluffy')
+rex = DinosaurToy('Rex')
+
+toys = [rusty, fluffy, rex]
+for toy in toys:
+   toy.speak()
+
+# Output:
+# Rusty says beep boop! I am a robot!
+# Fluffy says hug me! I'm cuddly!
+# Rex says ROOOOAR!

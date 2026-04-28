@@ -1,0 +1,59 @@
+Tuples are immutable
+
+developer = ('Alice', 34, 'Rust Developer')
+
+
+numbers = (1, 2, 3, 4, 5)
+numbers[-2] # 4
+
+
+developer = 'Jessica'
+tuple(developer) # ('J', 'e', 's', 's', 'i', 'c', 'a')
+
+
+programming_languages = ('Python', 'Java', 'C++', 'Rust')
+'Rust' in programming_languages # True
+'JavaScript' in programming_languages # False
+
+
+developer = ('Alice', 34, 'Rust Developer')
+name, age, job = developer
+
+print(name) # 'Alice'
+print(age) # 34
+print(job) # 'Rust Developer'
+
+desserts = ('cake', 'pie', 'cookies', 'ice cream')
+desserts[1:3] # ('pie', 'cookies')
+
+============================================
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+programming_languages.count('Rust') # 2
+programming_languages.count('JavaScript') # 0
+
+programming_languages.count()
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+TypeError: tuple.count() takes exactly one argument (0 given)
+
+programming_languages.index('Java') # 1
+
+
+ pass in optional start and stop index arguments
+ programming_languages.index('Python', 3) # 5
+ programming_languages.index('Python', 2, 5) # 2
+
+ sorted(numbers) # [2, 3, 7, 13, 18, 45, 67, 78]
+
+
+ you can use the optional reverse and key arguments. Here is an example of using key argument to sort items in a tuple by length:
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python')
+sorted(programming_languages, key=len)
+
+# Result
+# ['C++', 'Rust', 'Java', 'Rust', 'Python', 'Python']
+
+
+print(sorted(programming_languages, reverse=True))

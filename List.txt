@@ -1,0 +1,49 @@
+Lists
+
+developer = ['Jane Doe', 23, 'Python Developer']
+del developer[1]
+print(developer) # ['Jane Doe', 'Python Developer']
+
+'Rust' in programming_languages # True
+
+developer = ['Alice', 25, ['Python', 'Rust', 'C++']]
+developer[2][1] # 'Rust'
+
+developer = ['Alice', 34, 'Rust Developer']
+name, age, job = developer
+
+name, *rest = developer
+
+print(name) # 'Alice'
+print(rest) # [34, 'Rust Developer']
+
+desserts = ['Cake', 'Cookies', 'Ice Cream', 'Pie', 'Brownies']
+desserts[1:4] # ['Cookies', 'Ice Cream', 'Pie']
+
+===============================================================
+
+numbers.append(6)
+even_numbers = [6, 8, 10]
+numbers.append(even_numbers)
+print(numbers) # [1, 2, 3, 4, 5, [6, 8, 10]]
+
+numbers.extend(even_numbers)
+print(numbers) # [1, 2, 3, 4, 5, 6, 8, 10]
+
+numbers.insert(2, 2.5) # where 2 is index
+
+numbers.remove(50) # only first match
+
+numbers.pop(1) # remove at index 
+
+numbers.clear()
+
+numbers.sort()
+
+sorted_numbers = sorted(numbers)
+
+numbers.reverse()
+
+# This is used to find the first index
+programming_languages = ['Rust', 'Java', 'Python', 'C++']
+programming_languages.index('Java') # 1 
