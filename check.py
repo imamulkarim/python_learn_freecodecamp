@@ -31,3 +31,7 @@
 
 
 
+
+complex = 1 + 2j
+print(complex.real)  # Output: 1.0
+print(complex.imag)  # Output: 2.0

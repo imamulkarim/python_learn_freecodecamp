@@ -1,0 +1,340 @@
+https://www.freecodecamp.org/learn/python-v9/lecture-understanding-graphs-and-trees/what-are-graphs-in-computer-science
+
+Graphs are data structures used to represent the connections or relationships between objects or entities. They're often used to model networks.
+
+A graph is often represented as a collection of points or circles connected by lines.
+
+These circles and lines represent the two main components of a graph: nodes and edges.
+
+Nodes, also known as vertices, represent the objects or entities that are part of the network modeled by the graph. They could be users, products, stations, cities, or any other entities in the model.
+
+If two nodes are directly connected by an edge, like nodes A and B in this example, they're known as adjacent nodes.
+
+Types of Graphs
+There are different types of graphs with different characteristics and applications. Let's go over some of them.
+
+Undirected Graphs
+Undirected graphs are graphs where the edges don't have a specific direction. This type of edge is usually 
+represented with a straight line between the nodes.
+
+
+Directed Graphs
+In contrast, directed graphs are graphs where the edges do have a specific direction.
+If there is a connection from node A to node B, that doesn't necessarily imply that there is a connection from node B to node A.
+
+Vertex Labeled Graphs
+A vertex labeled graph is a graph in which each node is associated with a label or identifier in addition to its data. 
+These labels are used to identify the nodes, represent them visually, and store additional information about them.
+
+Cyclic Graphs
+Cyclic graphs are directed graphs with at least one cycle.
+A cycle is a path that you can follow through the edges of a graph that will take you back to the initial node where you started.
+
+Directed Acyclic Graph
+Another very common type of graph in computer science is the directed acyclic graph, which is a directed graph with no cycles.
+
+Disconnected Graph
+And the last type of graph that we'll cover in this lesson is the disconnected graph.
+A disconnected graph is a graph with two or more groups of nodes that are not connected by any edges.
+
+
+How Do Depth First and Breadth First Search Work?
+------------------------------------------------
+https://www.freecodecamp.org/learn/python-v9/lecture-understanding-graphs-and-trees/how-do-depth-first-and-breadth-first-search-work
+
+Breadth-First Search (BFS)
+Breadth-first search (BFS) is an algorithm that visits all neighboring nodes before moving to the next level in the graph.
+Queue: []
+Visited: {A, B, C, D, E, F, G}
+Breadth-first search (BFS) explores nodes level by level, which is perfect for finding the shortest path in an unweighted graph
+
+Depth-First Search (DFS)
+While breadth-first search (BFS) first visits all the neighboring nodes at the same level, depth-first search (DFS) follows each branch as deep as possible before it backtracks.
+Stack: []
+Visited: {A, B, C, D, E, F, G}
+depth-first search (DFS) follows one branch as deep as possible before backtracking, which is perfect for solving mazes and detecting cycles. 
+Understanding their pros and cons is helpful for choosing the right one for a particular problem.
+Recursion problem.
+
+How Do Matrices and Adjacency Lists Work?
+--------------------------------------------
+https://www.freecodecamp.org/learn/python-v9/lecture-understanding-graphs-and-trees/how-do-matrices-and-adjacency-lists-work
+
+Graphs are very powerful data structures made by a set of nodes, also known as vertices, and edges that connect them.
+
+There are two common ways to implement graphs in your code:
+. Adjacency matrices
+. Adjacency lists
+
+Adjacency Matrices
+We'll start with adjacency matrices.
+An adjacency matrix is a two-dimensional list in which the rows and columns represent the graph's vertices.
+The values in the matrix represent the edges or connections between the nodes.
+For example, if you have a matrix stored in a variable named matrix, the value stored at matrix[i][j],
+ where i is the row and j is the column, represents the edge or connection between node i and node j.
+
+The values may have different meanings depending on whether the graph is weighted or unweighted:
+
+* If the graph is unweighted, a value of 1 means that there is an edge connecting these nodes, 
+    while a value of 0 means there is no edge between them.
+
+* If the graph is weighted, the value would represent the weight of the edge that connects the nodes.
+
+* One of the great advantages of using an adjacency matrix is that checking if there is an edge between two nodes takes constant time O(1). 
+- if there is an edge between two nodes takes constant time O(1)
+- Adjacency matrices have a large quadratic space requirement O(V²), where V is the number of nodes in the graph.
+- Adjacency matrices are also inefficient for finding a node's neighbors because the program has to iterate over the entire row or column 
+    to find the 0s and 1s that represent the edges. In the worst case, this process can take O(V) time, 
+    where V is the number of nodes in the graph.
+
+For example, the first row is [0, 1, 1, 1] because node A has edges connecting it to nodes B, C, and D:
+
+#      A  B  C  D
+# A   [0, 1, 1, 1],
+# B   [1, 0, 0, 1],
+# C   [1, 0, 0, 0],
+# D   [1, 1, 0, 0]
+And this is the same adjacency matrix, but implemented in Python code:
+
+adjacency_matrix = [
+    [0, 1, 1, 1],  # The neighbors of A are B, C, and D
+    [1, 0, 0, 1],  # The neighbors of B are A and D
+    [1, 0, 0, 0],  # The only neighbor of C is A
+    [1, 1, 0, 0]   # The neighbors of D are A and B
+]
+
+
+** Adjacency Lists
+Another common way to represent graphs is by using adjacency lists.
+
+There are two ways to implement adjacency lists:
+
+- As an array, where each index represents a node and the list stored at that index contains its neighbors.
+- As a dictionary, where each key represents a node and the value associated to that key (a list) contains its neighbors.
+* They have a O(V + E) space complexity
+* It's also efficient for finding all neighbor nodes, since this operation only requires accessing the list associated to the node.
+* - Adjacency lists are less efficient than adjacency matrices for determining if there is an edge between two nodes.
+The search process can take O(V) time in the worst-case
+
+
+adjacency_list = {
+    'A': ['B', 'C', 'D'],
+    'B': ['A', 'D'],
+    'C': ['A'],
+    'D': ['A', 'B']
+}
+Alternatively, we could implement it as a 2D list, where each index represents a node. For example, index 0 represents node A, index 1 represents node B, and so on:
+
+adjacency_list = [
+    ['B', 'C', 'D'],  # Neighbors of A (index 0)
+    ['A', 'D'],       # Neighbors of B (index 1)
+    ['A'],            # Neighbors of C (index 2)
+    ['A', 'B']        # Neighbors of D (index 3)
+]
+
+
+What Are Trees and Tries and How Do They Work?
+------------------------------------------------
+
+https://www.freecodecamp.org/learn/python-v9/lecture-understanding-graphs-and-trees/what-are-trees-and-tries-and-how-do-they-work
+
+A tree is a specific type of graph.
+For a graph to be classified as a tree, it must:
+- Have no loops or cycles (paths where the start and end nodes are the same).
+- Be connected (every node can be reached from every other node).
+Trees are non-linear data structures that organize nodes in a hierarchy, where nodes may have children, siblings, and parent nodes.
+
+Tree nodes also have important properties:
+
+Depth: the length of the path from the root to that node. For example, in the diagram, node D has depth 2 because if you start at the root, 
+    you have to go through two edges to reach it.
+Height: the length of the path from that node down to a leaf. For example, node C has a height of 1 because it's one level above the leaf nodes.
+Degree: the number of child nodes each node has. In the diagram, node B has degree 0 because it's a leaf node, so it has no child nodes. 
+    Node C has degree 2 because it has two child nodes.
+
+The ordering property of binary search trees (BST) establishes that for every node, all values in its left subtree are less than the node's value,
+ and all values in its right subtree are greater than the node's value.
+The left and right subtrees must also be binary search trees themselves.
+
+This ordering makes search, insertion, and deletion operations very efficient if the tree is balanced.
+A balanced tree is a tree in which the heights of the left and right subtrees of any node are very similar to make sure 
+that operations remain efficient.
+
+
+***
+** Tries
+Now that you know more about trees and binary search trees, let's dive into tries.
+
+Tries are tree data structures used to store a set of strings.
+
+Tries are also known as prefix trees because they are very efficient for operations that require finding strings based on their prefixes.
+
+Each node in the trie represents a single character of a string.
+
+The root node does not represent any particular character, so you can think of it as representing an empty string.
+
+This is an example of a trie with the words "top", "tea" and "ten".
+
+Notice how the words "tea" and "ten" share the same prefix "te", so the data structure follows the same path until the last character,
+ which is marked as an end-of-word character. In this diagram, this is represented with a red border around the node:
+
+The worst-case time complexity for the search operation is O(L), where L is the length of the string that you are looking for.
+
+
+How Do Priority Queues and Heaps Work?
+----------------------------------------
+
+https://www.freecodecamp.org/learn/python-v9/lecture-understanding-graphs-and-trees/how-do-priority-queues-and-heaps-work
+
+A priority queue is an abstract data type (ADT) that works similarly to a queue or stack, but with one key difference.
+However, priority queues take the "priority" of the elements into account. The priority is used to determine which element should be removed next.
+
+Usually, the element with the highest priority is removed first, but some implementations may also choose to remove the element with the lowest priority first. This will depend on the requirements of your program.
+
+Priority queues are very helpful for practical applications like finding the shortest path between two locations, scheduling tasks in operating systems, simulating traffic, compressing data, and managing networks.
+
+In practice, priority queues are commonly implemented using a heap data structure.
+
+* A heap is a tree data structure with a very specific property called the heap property. This property determines the relationship between each node and its children, based on the type of heap.
+
+There are two primary types of heaps:
+- Max-heap
+- Min-heap
+In a max-heap, the value of each node is greater than or equal to the value of its children.
+
+import heapq
+my_heap = []
+heapq.heappush(my_heap, 9)
+heapq.heappop(my_heap)
+heapq.heappushpop(my_heap, 15)
+heapq.heapify(my_heap)
+
+Please note that, in this case, lower values will represent higher priorities. This means that a tuple with priority of 1 will have a higher priority than a tuple with priority of 3:
+
+my_heap = []
+
+heapq.heappush(my_heap, (3, "A"))
+heapq.heappush(my_heap, (2, "B"))
+heapq.heappush(my_heap, (1, "C"))
+
+***********************************************************************************************
+***********************************************************************************************
+***********************************************************************************************
+***********************************************************************************************
+
+https://www.freecodecamp.org/learn/python-v9/review-graphs-and-trees/review-graph-and-trees
+
+
+Graphs Overview
+A graph is a set of nodes (vertices) connected by edges (connections). Each node can connect to multiple other nodes, forming a network. The different types of graphs include:
+
+Directed: edges have a direction (from one node to another), often represented with straight lines and arrows.
+Undirected: edges have no direction, represented with simple lines.
+Vertex: each node is associated to a label or identifier.
+Cyclic: contains cycles (a path that starts and ends at the same node).
+Acyclic (DAG): does not contain cycles.
+Edge labeled: each edge has a label usually drawn next to corresponding edge.
+Weighted: edges have weights (values) associated with them, that can be used to perform arithmetic operations.
+Disconnected: contains two or more nodes that are not connected by any edges.
+Graphs are used in various applications such as maps, networks, recommendation systems, dependency resolution.
+
+Graph Traversals
+This involves visiting all the nodes in a graph. The two main algorithms are:
+
+Breadth-First Search (BFS)
+
+Uses a queue.
+Explores level by level.
+Finds shortest path in unweighted graphs.
+Depth-First Search (DFS)
+
+Uses a stack (or recursion).
+Explores a branch fully before backtracking.
+Useful for cycle detection and path finding.
+Graph Representations
+Graphs can be represented in two main ways:
+
+Adjacency List
+
+Each node has a list of its neighbors.
+Space efficient for sparse graphs.
+Easy to iterate over neighbors.
+Adjacency Matrix
+
+A 2D array where rows and columns represent nodes.
+Space intensive for large graphs.
+Fast to check if an edge exists between two nodes.
+Trees
+A tree is a special type of graph that is acyclic and connected. Key properties include:
+
+They have no loops or cycles (paths where the start and end nodes are the same).
+They must be connected (every node can be reached from every other node).
+Common types of trees
+The most common types of trees are:
+
+Binary Trees
+
+Each node has at most two children, a left and a right child.
+Binary Search Trees (BST)
+
+A binary tree in which every left child is less than its parent, and every right child is greater than its parent.
+Tries
+Also known as prefix trees, they are used to store sets of strings, where each node represents a character.
+
+Shared prefixes are stored only once, making them efficient for tasks like autocomplete and spell checking.
+
+Search and insertion operations have a time complexity of O(L), where L is the length of the string.
+
+Priority Queues
+A priority queue is an abstract data type where each element has a priority.
+
+Queues and stacks consider only the order of insertion, while priority queues consider the priority of elements.
+
+Standard queues follow FIFO (First In First Out) and stacks follow LIFO (Last In First Out). However, in a priority queue, elements with higher priority are served before those with lower priority, regardless of their insertion order.
+
+Heaps
+It's a specialized tree-based data structure with a very specific property called the heap property.
+
+The heap property determines the relationship between parent and child nodes. There are two types of heaps:
+
+Max-Heap
+
+The value of each parent node is greater than or equal to the values of its children.
+The largest element is at the root.
+Min-Heap
+
+The value of each parent node is less than or equal to the values of its children.
+The smallest element is at the root.
+Python heapq module example
+Example Code
+import heapq
+
+# Create empty heap
+my_heap = []
+
+# Insert elements
+heapq.heappush(my_heap, 9)
+heapq.heappush(my_heap, 3)
+heapq.heappush(my_heap, 5)
+print(my_heap) # [3, 9, 5]
+
+# Remove smallest element
+print(heapq.heappop(my_heap))  # 3
+print(my_heap) # [5, 9]
+
+# Push + Pop in one step
+print(heapq.heappushpop(my_heap, 7)) # 5
+print(my_heap) # [7, 9]
+
+# Transform list into heap
+nums = [5, 7, 3, 1]
+heapq.heapify(nums)
+Using Priorities
+Example Code
+my_heap = []
+heapq.heappush(my_heap, (3, "A"))
+heapq.heappush(my_heap, (2, "B"))
+heapq.heappush(my_heap, (1, "C"))
+
+# Removes lowest number = highest priority
+print(heapq.heappop(my_heap))  # (1, "C")
