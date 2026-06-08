@@ -4,6 +4,9 @@ class HashTable:
 
     def hash(self, text):
         return  sum(map(ord, text))
+    
+    #map(ord, text): Applies Python's built-in ord() function to every character in the string. 
+    # The ord() function returns the integer representation of a character (e.g., ord('a') is 97).
 
     def add(self, key, value):
         hash_key = self.hash(key)
